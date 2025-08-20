@@ -36,8 +36,9 @@ const upload = () => {
 
     setStatusText("Converting to image...");
     const imageFile = await convertPdfToImage(file);
+    console.log(imageFile);
     if (!imageFile.file)
-      return setStatusText("Error: Failed to convert PDF to image");
+      return setStatusText("Error: Failed to convert `PDF` to image");
     setStatusText("Uploading the image...");
     const uploadedImage = await fs.upload([imageFile.file]);
     if (!uploadedImage) return setStatusText("Error: Failed to upload image");
@@ -68,6 +69,7 @@ const upload = () => {
         ? feedback.message.content
         : feedback.message.content[0].text;
 
+    console.log(feedbackText);
     data.feedback = JSON.parse(feedbackText);
     await kv.set(`resume:${uuid}`, JSON.stringify(data));
     setStatusText("Analysis complete, redirecting...");
@@ -92,17 +94,13 @@ const upload = () => {
   return (
     <main className="bg-[url('/images/bg-main.svg')] bg-cover">
       <Navbar />
-      <section className="main-section py-16">
-        <div className="page-heading">
+      <section className="main-section ">
+        <div className="page-heading py-16">
           <h1>Smart feedback for your dream job</h1>
           {isProcessing ? (
             <>
               <h2>{statusText}</h2>
-              <img
-                src="/images/resume-scan.gif"
-                alt="scan gif"
-                className="w-full"
-              />
+              <img src="/images/resume-scan.gif" className="w-full " />
             </>
           ) : (
             <h2>Drop you resume for an ATS score and improvement</h2>
