@@ -13,7 +13,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-const resume = () => {
+const Resume = () => {
   const { auth, isLoading, fs, kv } = usePuterStore();
   const { id } = useParams();
   const [imageUrl, setImageUrl] = useState("");
@@ -42,10 +42,13 @@ const resume = () => {
 
       const imageBlob = await fs.read(data.imagePath);
       if (!imageBlob) return;
-      const imageUrl = URL.createObjectURL(imageBlob);
-      setImageUrl(imageUrl);
-
+      const imgUrl = URL.createObjectURL(imageBlob);
+      console.log("first", imgUrl);
+      setImageUrl(imgUrl);
+      console.log("second", imageUrl);
       setFeedback(data.feedback);
+
+      console.log({ resumeUrl, imageUrl, feedback: data.feedback });
     };
 
     loadResume();
@@ -69,7 +72,7 @@ const resume = () => {
                 <img
                   src={imageUrl}
                   alt="resume"
-                  className="w-full h-full object-fit rounded-2xl"
+                  className="w-full h-full object-fill rounded-2xl"
                   title="resume"
                 />
               </a>
@@ -96,4 +99,4 @@ const resume = () => {
   );
 };
 
-export default resume;
+export default Resume;
